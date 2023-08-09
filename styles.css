@@ -1,22 +1,32 @@
 #GameBoard {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 700px;
+  margin: auto;
 }
 .card{
-  margin: 5px;
+  margin: 10px;
   transition: 0.5s;
+}
+.card img{
+  max-width: 100%;
+  max-height: 100%;
 }
 .card:hover{
   cursor: pointer;/*qd le curseur pointe sur la card on a une main */
 }
-.card.hidden p{
-  visibility: hidden; /* le p de la carte est cachée*/
+.card.hidden img{
+  visibility: hidden; /* l image de la carte est cachée*/
 }
 
 .card.hidden {
-  background-color: red;
+  transform: rotateY(180deg);
+  background-image:url("img/back.png");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 .card.finded{
-  color: green;
+  border:solid 5px green;
+  opacity: 0.5;
 }

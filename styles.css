@@ -1,0 +1,22 @@
+#GameBoard {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+}
+.card{
+  margin: 5px;
+  transition: 0.5s;
+}
+.card:hover{
+  cursor: pointer;/*qd le curseur pointe sur la card on a une main */
+}
+.card.hidden p{
+  visibility: hidden; /* le p de la carte est cachée*/
+}
+
+.card.hidden {
+  background-color: red;
+}
+.card.finded{
+  color: green;
+}

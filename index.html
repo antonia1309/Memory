@@ -8,8 +8,15 @@
   <title>Jeu de mémory</title>
 </head>
 <body>
+  
+  <div>
+    <p>Combien de paires pour jouer ?</p>
+    <input id="nbCardInput" type="number" max="6" min="2" value="2"/>
+    <button id="playButton">Play</button>
+  </div>
+
   <div id="GameBoard">
-    <div class="card hidden" id="0" data-image="king"> <!--data attribut:creer des data attributs permettent de stocker des donnees du html et d'utiliser le -image ds js -->
+    <!-- <div class="card hidden" id="0" data-image="king"> /*data attribut:creer des data attributs permettent de stocker des donnees du html et d'utiliser le -image ds js
       <img src="img/king.png"/>
     </div>
     <div class="card hidden" id="1" data-image="queen">
@@ -22,17 +29,17 @@
       <img src="img/king.png"/>
     </div>
     <div class="card hidden" id="4" data-image="valet">
-      <img src="img/valet.jpg"/>
+      <img src="img/valet.png"/>
     </div>
     <div class="card hidden" id="5" data-image="valet">
-      <img src="img/valet.jpg"/>
+      <img src="img/valet.png"/>
     </div>
     <div class="card hidden" id="6" data-image="as">
       <img src="img/as.png"/>
     </div>
     <div class="card hidden" id="7" data-image="as">
       <img src="img/as.png"/>
-    </div>
+    </div> -->
   </div>
 
   <script src="script.js"></script>

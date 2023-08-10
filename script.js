@@ -69,7 +69,8 @@ function clickOnCardEvent(card){
             CardClickedId = "";/*Pr sauvegarder la 1ere carte trouvée pr comparer au 2e et après on repart à 0 d'où vide*/
             // compter les cartes qui n ont pas la classe finded
             if(cptCartesTrouvees == nbPairesOnGame*2){
-              alert('gagné')
+              // ajout animation car on a gangé
+              setAnimationWin();
             }
             // si =0 alors on a gagné , le jeu est fini
         }
@@ -79,6 +80,8 @@ function clickOnCardEvent(card){
 
 //ici c est pr creer les cartes de manière aléatoire
 function initGame(nbPaires){
+    stopAnimation();/*on stop les confeti au debut du jeu */
+    
     gameBoard.innerHTML = "";/*au dbut il vaut 0*/
     nbPairesOnGame = nbPaires;
     cptCartesTrouvees = 0;
@@ -117,7 +120,7 @@ function initGame(nbPaires){
 
 }
 
-
+// fonction pr des elts aleatoires avecun min et un max
 function getRandomArbitrary(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
@@ -130,4 +133,22 @@ function getHtmlCodeCard(nomCard, id){
     
 }
 
-  
+//fonction pr les animations confetti
+function setAnimationWin(){
+    let animateDiv = document.getElementById("allconfettis");
+    animateDiv.innerHTML = "";
+
+    for(let i = 0; i < 100; i++ ){
+      let confeti = document.createElement("div");
+      confeti.classList.add("confetti");
+      confeti.style.left =getRandomArbitrary(0,100)+'%';
+      confeti.style.animationDelay = 50*i+"ms";
+      confeti.style.backgroundColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);/*pr creer des couleurs aleatoires */
+      animateDiv.appendChild(confeti);/*indique q confeti est un enfant de animateDiv */
+    }
+}
+
+function stopAnimation(){
+  let animateDiv = document.getElementById("allconfettis");
+  animateDiv.innerHTML = ""; /*pr vider la page html soit le allconfettis */
+}

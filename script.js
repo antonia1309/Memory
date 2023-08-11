@@ -7,7 +7,16 @@ const cards = ["king", "queen", "valet", "as", "kingpiq", "kingtrefle"];//pr la 
 const gameBoard = document.getElementById("GameBoard");
 let nbPairesOnGame;
 let cptCartesTrouvees = 0;
+const nbCoupsCurrentNode = document.getElementById("NbCoupsCurrent");
+const BestScoreNode = document.getElementById("BestScore");
+const avgScoreNode = document.getElementById("avgScore");
+const BestScoreCookie = "BestScore";
+const AllScoresCookie = "AllScores";
 
+let nbCoups = 0;/*vaut 0 */
+
+BestScoreNode.innerText = getCookie(BestScoreCookie);
+avgScoreNode.innerText = getAverageNbCoups();
 
 //qd on click sur play, recupère le nbre de cartes et tu fait un initGame
 document.getElementById("playButton").addEventListener("click", function(){
@@ -32,16 +41,16 @@ document.getElementById("lessCards").addEventListener("click", function(){
 
 //cette fonction gère ce qui se passe qd on click sur une carte
 function clickOnCardEvent(card){
-  let allCards = document.querySelectorAll(".card")/*on va aller choper ttes les classes card */ 
-  if(card.classList.contains("finded")){
-      return; /*ca v dire tu ne fait pas cette fonction */
-   }
-  
-   cptClickCurrent  ++;/* cpte le nbre de click dc au 1er ou au 2e on cache ou montre l image */
+    let allCards = document.querySelectorAll(".card");/*on va aller choper ttes les classes card */ 
+    if(card.classList.contains("finded")){
+        return; /*ca v dire tu ne fait pas cette fonction */
+    }
+    
+    cptClickCurrent ++;/* cpte le nbre de click dc au 1er ou au 2e on cache ou montre l image */
   
    // premier click, je cache les images trouvées avant 
     if(cptClickCurrent == 1){
-        allCards.forEach(card =>{
+        allCards.forEach(card => {
           if(card.classList.contains("finded")){
             // c'est une carte trouvée
           }
@@ -66,9 +75,9 @@ function clickOnCardEvent(card){
       // au fait il ne faut pas que les id soient identique mais le nom de data- doivent être identique
         else{
             card.classList.remove("hidden");
-            let cardClickedBefore = document.getElementById(CardClickedId)
+            let cardClickedBefore = document.getElementById(CardClickedId);
             if(cardClickedBefore.dataset.image == card.dataset.image){ /*ici on compare l'image du data qu on a cliqué avant est le mm que la carte au 2e click */
-                allCards.forEach(card =>{
+                allCards.forEach(card => {
                   if(card.classList.contains("hidden")){
                     // c'est une carte cachée
                   }
@@ -79,14 +88,44 @@ function clickOnCardEvent(card){
                 });
             }
             
+            nbCoups++;/*chq fois qu il click à partir du 2e fois ca augmente */
+            nbCoupsCurrentNode.innerText = nbCoups;
+            
             cptClickCurrent = 0;
             CardClickedId = "";/*Pr sauvegarder la 1ere carte trouvée pr comparer au 2e et après on repart à 0 d'où vide*/
             // compter les cartes qui n ont pas la classe finded
             if(cptCartesTrouvees == nbPairesOnGame*2){
-              // ajout animation car on a gangé
-              setAnimationWin();
+                // ajout animation car on a gangé
+                // si =0 alors on a gagné , le jeu est fini
+                setAnimationWin();
+              //Partie terminée, je mets à jour les cookies
+              let oldScore = getCookie(AllScoresCookie);
+              let allscore = "";
+              if(oldScore != null){
+                  allscore = oldScore+"."+nbCoups;
+              }
+              else{
+                  allscore = nbCoups;
+              }
+
+              setCookie(AllScoresCookie, allscore);
+              avgScoreNode.innerText = getAverageNbCoups();
+
+              if(nbCoups < getCookie(BestScoreCookie) 
+              || getCookie(BestScoreCookie) == null){
+                  //On a battu le meilleur score !
+                  setCookie(BestScoreCookie, nbCoups);
+                  BestScoreNode.innerText = nbCoups;
+                  
+                  let audio = new Audio("sounds/cheer2.mp3");
+                  audio.play();
+              }
+              else{
+                  let audio = new Audio("sounds/applause.mp3");
+                  audio.play();
+              }
             }
-            // si =0 alors on a gagné , le jeu est fini
+            
         }
     }     
 } 
@@ -99,6 +138,8 @@ function initGame(nbPaires){
     gameBoard.innerHTML = "";/*au dbut il vaut 0*/
     nbPairesOnGame = nbPaires;
     cptCartesTrouvees = 0;
+    nbCoups = 0;
+    nbCoupsCurrentNode.innerText = nbCoups;/*innerText permet de modif le texte à 'interieur d un span par ex */
     
     let gameCard = [];/*le tab avec ttes mes cartes */
     
@@ -126,11 +167,11 @@ function initGame(nbPaires){
 
     //j ajoute l evenement de click sur ttes les cartes
     let allCards = document.querySelectorAll(".card");
-    allCards.forEach(card =>{
-    card.addEventListener("click", function (){
-        clickOnCardEvent(card); /*chq fois qu on clique sur une carte on lance la fonction clickOnCardEvent */
+    allCards.forEach(card => {
+        card.addEventListener("click", function(){
+            clickOnCardEvent(card); /*chq fois qu on clique sur une carte on lance la fonction clickOnCardEvent */
+        });
     });
-});
 
 }
 
@@ -143,8 +184,7 @@ function getRandomArbitrary(min, max) {
 function getHtmlCodeCard(nomCard, id){
     return `<div class="card hidden" id="${id}" data-image="${nomCard}"> 
           <img src="img/${nomCard}.png"/>
-        </div>`;
-    
+        </div>`; 
 }
 
 //fonction pr les animations confetti quand on gagne
@@ -152,7 +192,7 @@ function setAnimationWin(){
     let animateDiv = document.getElementById("allconfettis");
     animateDiv.innerHTML = "";
 
-    for(let i = 0; i < 100; i++ ){
+    for(let i = 0; i < 100; i++){
       let confeti = document.createElement("div");
       confeti.classList.add("confetti");
       confeti.style.left =getRandomArbitrary(0,100)+'%';
@@ -166,4 +206,56 @@ function setAnimationWin(){
 function stopAnimation(){
   let animateDiv = document.getElementById("allconfettis");
   animateDiv.innerHTML = ""; /*pr vider la page html soit le allconfettis */
+}
+
+// fonction pour recup et stocker les cookies
+function setCookie(name, value) {
+  // Encode value in order to escape semicolons, commas, and whitespace
+  var cookie = name + "=" + encodeURIComponent(value);
+  
+      /* Sets the max-age attribute so that the cookie expires
+      after the specified number of days */
+      cookie += "; max-age=" + (100*24*60*60);  
+      document.cookie = cookie;   
+}
+
+
+function getCookie(name) {
+  // Split cookie string and get all individual name=value pairs in an array
+  var cookieArr = document.cookie.split(";");
+  
+  // Loop through the array elements
+  for(var i = 0; i < cookieArr.length; i++) {
+      var cookiePair = cookieArr[i].split("=");
+      
+      /* Removing whitespace at the beginning of the cookie name
+      and compare it with the given string */
+      if(name == cookiePair[0].trim()) {
+          // Decode the cookie value and return
+          return decodeURIComponent(cookiePair[1]);
+      }
+  }
+  
+  // Return null if not found
+  return null;
+}
+
+//fonction pour calcul de la moyenne des scores
+function getAverageNbCoups(){
+  let allscore = getCookie(AllScoresCookie);
+  if(allscore != null){
+      let allScoreTab = allscore.split(".");
+      let sum = 0;
+      let nbParties = 0;
+      allScoreTab.forEach(score => {
+          sum += +score;
+          nbParties ++;
+      });
+  
+      let moyenne = sum / nbParties;
+      return Math.round(moyenne);
+  }
+  else{
+      return 0;
+  }
 }

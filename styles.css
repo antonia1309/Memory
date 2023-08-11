@@ -39,7 +39,7 @@ body{
   background-repeat: no-repeat;
 }
 .card.finded{
-  border:solid 5px green;
+  border:solid 5px #0f1ca8;
   opacity: 0.5;
 }
 
@@ -115,10 +115,10 @@ button{
   color: white;
   font-size: 17px;
   transition: 0.3s;
-  background: radial-gradient(#ed8702, #1222d1);
-  box-shadow: 5px 5px 5px rgb(198, 187, 187);
+  background: radial-gradient(#ed8702, #0f1ca8);
+  box-shadow: 5px 5px 5px rgb(52, 51, 51);
 }
-#playButton:hover{
+button:hover{
   cursor: pointer;
   box-shadow:2px 2px 2px rgb(229, 225, 225) ;
 }
@@ -129,4 +129,8 @@ button{
 .morelessButtons{
   display: flex;
   flex-direction: column;
+}
+.enteteJeu{
+  display: flex;
+  justify-content: space-evenly;
 }

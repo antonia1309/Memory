@@ -8,6 +8,7 @@
   <link href="https://fonts.cdnfonts.com/css/frazzle" rel="stylesheet">
   <title>Jeu de mémory</title>
 </head>
+
 <body>
   <div id="allconfettis">
     <!-- <div class="confetti">
@@ -17,16 +18,34 @@
   <div class="text-bienvenue">
     <h1>Memory Game Live Studi</h1>
     <p>Combien de paires pour jouer ?</p>
-    <div class="game-config">
-      <input id="nbCardInput" type="number" max="6" min="2" value="2"/>
-      <div class="morelessButtons">
-        <button id="moreCards">+</button>
-        <button id="lessCards">-</button>
+    
+    <div class="enteteJeu">
+      <div>
+        <div class="game-config">
+          <input id="nbCardInput" type="number" max="6" min="2" value="2"/>
+          
+          <div class="morelessButtons">
+            <button id="moreCards">+</button>
+            <button id="lessCards">-</button>
+          </div>
+        </div>
+        <button id="playButton">Play</button>
       </div>
+    
+      <div>
+        <div>
+          Score actuel : <span id="NbCoupsCurrent"></span>
+        </div>
+        <div>
+          Meilleur score : <span id="BestScore"></span>
+        </div>
+        <div>
+          Score moyen : <span id="avgScore"></span>
+        </div>
+      </div>
+  
     </div>
-    <button id="playButton">Play</button>
   </div>
-
   <div id="GameBoard">
     <!-- <div class="card hidden" id="0" data-image="king"> /*data attribut:creer des data attributs permettent de stocker des donnees du html et d'utiliser le -image ds js
       <img src="img/king.png"/>

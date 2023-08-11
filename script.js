@@ -15,6 +15,20 @@ document.getElementById("playButton").addEventListener("click", function(){
     initGame(nbCardInput.value);
 });
 
+//fonction pr les boutons + et - afin de choisir le nb de cartes à jouer
+document.getElementById("moreCards").addEventListener("click", function(){
+  let nbCardInput =document.getElementById("nbCardInput");
+  if(nbCardInput.value < 6){
+    nbCardInput.value ++;
+  }
+});
+document.getElementById("lessCards").addEventListener("click", function(){
+  let nbCardInput =document.getElementById("nbCardInput");
+  if(nbCardInput.value > 2){
+    nbCardInput.value --;
+  }
+});
+
 
 //cette fonction gère ce qui se passe qd on click sur une carte
 function clickOnCardEvent(card){
@@ -133,7 +147,7 @@ function getHtmlCodeCard(nomCard, id){
     
 }
 
-//fonction pr les animations confetti
+//fonction pr les animations confetti quand on gagne
 function setAnimationWin(){
     let animateDiv = document.getElementById("allconfettis");
     animateDiv.innerHTML = "";
@@ -148,6 +162,7 @@ function setAnimationWin(){
     }
 }
 
+//fonction pr stopper l animation
 function stopAnimation(){
   let animateDiv = document.getElementById("allconfettis");
   animateDiv.innerHTML = ""; /*pr vider la page html soit le allconfettis */

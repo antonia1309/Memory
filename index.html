@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css"/>
+  <link href="https://fonts.cdnfonts.com/css/frazzle" rel="stylesheet">
   <title>Jeu de mémory</title>
 </head>
 <body>
@@ -13,9 +14,16 @@
     </div> -->
   </div>
   
-  <div>
+  <div class="text-bienvenue">
+    <h1>Memory Game Live Studi</h1>
     <p>Combien de paires pour jouer ?</p>
-    <input id="nbCardInput" type="number" max="6" min="2" value="2"/>
+    <div class="game-config">
+      <input id="nbCardInput" type="number" max="6" min="2" value="2"/>
+      <div class="morelessButtons">
+        <button id="moreCards">+</button>
+        <button id="lessCards">-</button>
+      </div>
+    </div>
     <button id="playButton">Play</button>
   </div>
 
